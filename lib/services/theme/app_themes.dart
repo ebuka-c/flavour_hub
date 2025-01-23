@@ -10,7 +10,7 @@ class AppThemes {
     fontFamily: 'Poppins',
     primaryTextTheme: TextTheme(
         titleSmall: titleSmall.copyWith(color: AppColors.primaryText)),
-    scaffoldBackgroundColor: AppColors.appBackground,
+    scaffoldBackgroundColor: AppColors.white,
     buttonTheme: const ButtonThemeData(
       buttonColor: AppColors.appPrimary,
     ),
