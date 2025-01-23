@@ -1,0 +1,61 @@
+name: flavor_hub
+description: "A new Flutter project."
+
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  get: ^4.6.6
+  device_preview: ^1.2.0
+  get_storage: ^2.1.1
+  flutter_native_splash: ^2.4.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter_native_splash:
+  # image: "assets/images/png/play_store_512.png"
+  color: "#FFFFFF"
+  android: true
+  ios: true
+  android_gravity: center # Center the image
+  # android_resize: true # Resize to fill
+  # android_scale: center_crop # Use center_crop
+  web: false
+  android_12:
+    # image: assets/images/png/asset_4.png
+    color: "#FFFFFF"
+    icon_background_color: "#FFFFFF"
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/png/
+  #   - images/a_dot_ham.jpeg
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+    #       - asset: fonts/Schyler-Italic.ttf
+    #         style: italic
+    - family: Yellow
+      fonts:
+        - asset: assets/fonts/YelloveDemoRegular-3gyp.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/to/font-from-package
