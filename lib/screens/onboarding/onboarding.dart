@@ -1,6 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flavor_hub/constants/custom_textstyles.dart';
+import 'package:flavor_hub/constants/images.dart';
 import 'package:flavor_hub/utilities/extensions.dart';
-import 'dart:ui' as ui;
+import 'package:flavor_hub/widgets/app_button.dart';
+import 'package:flutter/material.dart';
+import '../../constants/colors.dart';
+import '../../widgets/custom_clipper.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -8,6 +12,9 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+
+    int pageIndex = 0;
 
     return Scaffold(
       body: Stack(
@@ -16,125 +23,129 @@ class OnboardingScreen extends StatelessWidget {
           Container(
             width: double.infinity,
             height: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 18.0.w),
             color: Colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ...List.generate(
+                        3,
+                        (index) => Padding(
+                              padding: const EdgeInsets.only(right: 4),
+                              child: DotIndicator(
+                                isActive: index == pageIndex,
+                              ),
+                            )),
+                  ],
+                ),
+                SizedBox(height: 40.0.h),
+                SizedBox(
+                  width: 300,
+                  child: Text(
+                    'Get all the recipes that you need',
+                    textAlign: TextAlign.center,
+                    style: titleMedium.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(height: 20.0.h),
+                Text(
+                  'Whether you are gaining or losing, we have all the recipes that you need',
+                  textAlign: TextAlign.center,
+                  style: bodyLarge.copyWith(
+                      fontWeight: FontWeight.bold, color: AppColors.lightText),
+                ),
+                SizedBox(
+                  height: 70.0.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Skip',
+                      style: bodyLarge.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.lightText2),
+                    ),
+                    AppButton(
+                      onTap: () {},
+                      width: 100,
+                      radius: 30,
+                      height: 50,
+                      text: 'Next',
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 80.0.h,
+                )
+              ],
+            ),
           ),
-          CustomPaint(
-            size: Size(double.maxFinite, h / 2),
-            painter: RPSCustomPainter(),
-            // child: Container(
-            //   width: double.infinity,
-            //   height: h / 2,
-            //   color: Colors.amber,
-            // ),
-          )
+          ClipPath(
+            clipper: RPSCustomClipper(),
+            child: Container(
+              width: w,
+              height: h / 1.87,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(AppImages.ob1), fit: BoxFit.cover)),
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-class RPSCustomPainter extends CustomPainter {
+class RPSCustomClipper extends CustomClipper<Path> {
   @override
-  void paint(Canvas canvas, Size size) {
-    // Layer 1
-
-    Paint paint_fill_0 = Paint()
-      ..color = const Color.fromARGB(255, 142, 132, 227)
-      ..style = PaintingStyle.fill
-      ..strokeWidth = size.width * 0.00
-      ..strokeCap = StrokeCap.butt
-      ..strokeJoin = StrokeJoin.miter;
-
-    Path path_0 = Path();
-    path_0.moveTo(size.width * -0.0243333, size.height * -0.0091706);
-    path_0.lineTo(size.width * 1.0025641, 0);
-    path_0.quadraticBezierTo(size.width * 1.1159487, size.height * 0.5403555,
-        size.width * 1.1175128, size.height * 0.7638389);
-    path_0.cubicTo(
-        size.width * 0.4669744,
-        size.height * 0.6919668,
-        size.width * 0.5650769,
-        size.height * 1.2079858,
-        size.width * -0.0681795,
-        size.height * 0.7562559);
-
-    canvas.drawPath(path_0, paint_fill_0);
-
-    // Layer 1
-
-    Paint paint_stroke_0 = Paint()
-      ..color = const Color.fromARGB(255, 33, 150, 243)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = size.width * 0.00
-      ..strokeCap = StrokeCap.butt
-      ..strokeJoin = StrokeJoin.miter;
-
-    canvas.drawPath(path_0, paint_stroke_0);
+  Path getClip(Size size) {
+    Path path = Path();
+    path.moveTo(size.width * -0.0243333, size.height * -0.0091706);
+    path.lineTo(size.width * 1.0025641, 0);
+    path.quadraticBezierTo(
+      size.width * 1.0747949,
+      size.height * 0.5345261,
+      size.width * 1.4076154,
+      size.height * 0.6585545,
+    );
+    path.cubicTo(
+      size.width * 0.6642564,
+      size.height * 0.5719668,
+      size.width * 0.5820513,
+      size.height * 1.2325355,
+      size.width * -0.0681795,
+      size.height * 0.7562559,
+    );
+    path.close();
+    return path;
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
     return true;
   }
 }
 
+class DotIndicator extends StatelessWidget {
+  const DotIndicator({super.key, this.isActive = false});
 
-/**
- * child: CustomPaint(
-  size: Size(WIDTH,(WIDTH*1.082051282051282).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-  painter: RPSCustomPainter(),
-),
- */
-
-/**
- * class RPSCustomPainter extends CustomPainter{
-  
-  @override
-  void paint(Canvas canvas, Size size) {
-    
-    
-
-  // Layer 1
-  
-  Paint paint_fill_0 = Paint()
-      ..color = const Color.fromARGB(255, 142, 132, 227)
-      ..style = PaintingStyle.fill
-      ..strokeWidth = size.width*0.00
-      ..strokeCap = StrokeCap.butt
-      ..strokeJoin = StrokeJoin.miter;
-     
-         
-    Path path_0 = Path();
-    path_0.moveTo(size.width*-0.0243333,size.height*-0.0091706);
-    path_0.lineTo(size.width*1.0025641,0);
-    path_0.quadraticBezierTo(size.width*1.0109487,size.height*0.5482701,size.width*1.0125128,size.height*0.7717536);
-    path_0.cubicTo(size.width*0.6434103,size.height*0.7113507,size.width*0.6522821,size.height*0.8580569,size.width*0.3477436,size.height*0.8831754);
-    path_0.quadraticBezierTo(size.width*0.0979744,size.height*0.8386019,size.width*-0.0288462,size.height*0.7264218);
-
-    canvas.drawPath(path_0, paint_fill_0);
-  
-
-  // Layer 1
-  
-  Paint paint_stroke_0 = Paint()
-      ..color = const Color.fromARGB(255, 33, 150, 243)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = size.width*0.00
-      ..strokeCap = StrokeCap.butt
-      ..strokeJoin = StrokeJoin.miter;
-     
-         
-    
-    canvas.drawPath(path_0, paint_stroke_0);
-  
-    
-  }
+  final bool isActive;
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+        duration: const Duration(milliseconds: 400),
+        height: isActive ? 12 : 10,
+        width: isActive ? 30 : 10,
+        decoration: BoxDecoration(
+            color: isActive
+                ? AppColors.appPrimary
+                : AppColors.appPrimary.withOpacity(0.4),
+            borderRadius: BorderRadius.circular(12)));
   }
-  
 }
-
- */
