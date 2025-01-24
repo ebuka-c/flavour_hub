@@ -9,4 +9,5 @@ class AppRoutes {
 
   static const String selectExpertise = "/selectExpertise";
   static const String homeScreen = "/homeScreen";
+  static const String navBar = "/nav";
 }

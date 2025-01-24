@@ -4,8 +4,8 @@ import 'package:flavor_hub/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../constants/colors.dart';
-import '../../constants/custom_textstyles.dart';
+import '../constants/colors.dart';
+import '../constants/custom_textstyles.dart';
 
 class SelectExpertise extends StatelessWidget {
   const SelectExpertise({super.key});
@@ -77,7 +77,7 @@ class SelectExpertise extends StatelessWidget {
             const Spacer(),
             AppButton(
               onTap: () {
-                Get.toNamed(AppRoutes.homeScreen);
+                Get.toNamed(AppRoutes.navBar);
               },
               text: 'Next',
             )

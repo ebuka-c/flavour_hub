@@ -6,7 +6,7 @@ class AppColors {
   static const errorBorder = Color(0xffE55B48);
   static const appRed = Color(0xffFF6347);
   static const appPurple = Color(0xffA800C1);
-  static const appBackground = Color.fromARGB(255, 244, 249, 247);
+  static const appBackground = Color.fromARGB(255, 241, 241, 241);
   static const inactiveBtnState = Color(0xffE6E6E6);
   static const lightText = Color(0xff666666);
   static const lightText2 = Color(0xff999999);
