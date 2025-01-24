@@ -1,3 +1,4 @@
+import 'package:flavor_hub/constants/locals.dart';
 import 'package:flavor_hub/utilities/extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -90,7 +91,7 @@ class SignUpScreen extends StatelessWidget {
                                     : Colors.red,
                               )
                             : null,
-                        autovalidateMode: AutovalidateMode.disabled,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         onChanged: validateEmail,
                         validator: (value) {
                           if (value?.isEmpty ?? false) {
@@ -165,21 +166,22 @@ class SignUpScreen extends StatelessWidget {
                   SizedBox(height: 20.0.h),
                   Obx(() {
                     return AppButton(
-                      onTap:
-                          (!_authC.acceptTerms.value && _authC.isLoading.value)
-                              ? null
-                              : () async {
-                                  // if (_formKey.currentState?.validate() ?? false) {
-                                  //   // print('signup');
-                                  //   var status = await _authC.signUpwEmailPwd(
-                                  //       _authC.signUpEmailController.text.trim(),
-                                  //       _authC.signUpPwdC.text.trim());
+                      onTap: (!_authC.acceptTerms.value ||
+                              _authC.isLoading.value)
+                          ? null
+                          : () async {
+                              if (_formKey.currentState?.validate() ?? false) {
+                                var status = await _authC.signUpwEmailPwd(
+                                    _authC.signUpEmailController.text.trim(),
+                                    _authC.signUpPwdC.text.trim());
 
-                                  //   if (status) {
-                                  //     // Get.toNamed(AppRoutes.onboarding2);
-                                  //   }
-                                  // }
-                                },
+                                if (status) {
+                                  getStorageInstance.write(USER_NAME,
+                                      _authC.nameController.text.trim());
+                                  Get.toNamed(AppRoutes.selectExpertise);
+                                }
+                              }
+                            },
                       isLoading: _authC.isLoading.value ? true : false,
                       text: 'Create an account',
                       textColor: _authC.acceptTerms.value

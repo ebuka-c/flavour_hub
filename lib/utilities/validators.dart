@@ -34,4 +34,34 @@ class AppValidators {
       }
     }
   }
+
+  static bool isButtonPressed = false;
+
+  static String? validatePin(String? pin) {
+    if (pin == null || pin.isEmpty) {
+      return 'Please enter your PIN';
+    }
+    if (pin.length < 4) {
+      return 'PIN must be at least 4 digits';
+    }
+
+    return null; // Return null if valid
+  }
+
+  static void verifyPin() {
+    isButtonPressed = true; // Set to true when button is pressed
+  }
+
+  static String? newPswdValidator(String? value) {
+    RegExp strongPwsdRegex = RegExp(r'^(?=.*?[A-Z])(?=.*?[A-Z]).{6,}$');
+    if (value!.isEmpty) {
+      return 'Password field must not be empty';
+    } else {
+      if (!strongPwsdRegex.hasMatch(value)) {
+        return 'Not Strong Enough. Must contain: \n- uppercase letter\n- lower case letter\n- Be atleast 6 characters long';
+      } else {
+        return null;
+      }
+    }
+  }
 }

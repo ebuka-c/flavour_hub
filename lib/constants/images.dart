@@ -9,6 +9,7 @@ class AppImages {
   //:LIST OF PNG IMAGES://
   static const facebook = "$imgPath/facebook.png";
   static const google = "$imgPath/google.png";
+  static const wavinghand = "$imgPath/wavinghand.png";
 
   //:LIST OF JPG IMAGES://
   static const ob1 = "$jpgPath/ob1.jpg";

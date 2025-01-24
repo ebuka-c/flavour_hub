@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "959694560903",
+    "project_id": "flavour-hub-c3187",
+    "storage_bucket": "flavour-hub-c3187.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959694560903:android:7b9598c22d28253528e222",
+        "android_client_info": {
+          "package_name": "com.example.flavor_hub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfo_jGhGXQwwyYbjxlRhTVGa8KHG1MGhI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

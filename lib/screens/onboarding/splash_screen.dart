@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Text(
-          'The Flavor Hub',
+          'The Flavour Hub',
           style: titleLarge.copyWith(fontFamily: 'Yellow'),
         ),
       ),

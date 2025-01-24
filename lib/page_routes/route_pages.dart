@@ -1,7 +1,10 @@
+import 'package:flavor_hub/screens/auth/account_recovery/forgot_pwd.dart';
 import 'package:flavor_hub/screens/auth/sign_up_screen.dart';
 import 'package:get/get.dart';
 import 'package:flavor_hub/screens/onboarding/onboarding.dart';
 import '../screens/auth/login_screen.dart';
+import '../screens/main_screens/home_screen.dart';
+import '../screens/main_screens/select_expertise.dart';
 import '../screens/onboarding/splash_screen.dart';
 import 'route_name.dart';
 
@@ -23,6 +26,18 @@ class RoutePages {
     GetPage(
       name: AppRoutes.signInScreen,
       page: () => const LoginScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.forgotPwd,
+      page: () => const ForgotPassword(),
+    ),
+    GetPage(
+      name: AppRoutes.selectExpertise,
+      page: () => const SelectExpertise(),
+    ),
+    GetPage(
+      name: AppRoutes.homeScreen,
+      page: () => HomeScreen(),
     ),
   ];
 }

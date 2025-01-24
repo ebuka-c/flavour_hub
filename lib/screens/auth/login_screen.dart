@@ -103,7 +103,9 @@ class LoginScreen extends StatelessWidget {
                         obscureText: _authC.passwordObscure.value);
                   }),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(AppRoutes.forgotPwd);
+                    },
                     child: Text(
                       'Forgot Password?',
                       style: bodyMedium.copyWith(fontWeight: FontWeight.w600),
@@ -115,15 +117,15 @@ class LoginScreen extends StatelessWidget {
                       onTap: _authC.isLoading.value
                           ? null
                           : () async {
-                              // if (_formKey.currentState?.validate() ?? false) {
-                              //   var status = await _authC.loginwEmailPwd(
-                              //       _authC.emailController.text.trim(),
-                              //       _authC.loginPwdController.text.trim());
+                              if (_formKey.currentState?.validate() ?? false) {
+                                var status = await _authC.loginwEmailPwd(
+                                    _authC.emailController.text.trim(),
+                                    _authC.loginPwdController.text.trim());
 
-                              //   if (status) {
-                              //     // Get.toNamed(AppRoutes.onboarding2);
-                              //   }
-                              // }
+                                if (status) {
+                                  Get.toNamed(AppRoutes.selectExpertise);
+                                }
+                              }
                             },
                       isLoading: _authC.isLoading.value ? true : false,
                       text: 'Login',
