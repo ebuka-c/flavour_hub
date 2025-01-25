@@ -34,7 +34,7 @@ List<String> categ = [
 
 List<String> topRecipes = [
   'Big Mac',
-  'Onyibo Sharwama',
+  'Beef Sharwama',
   'Cheese Fries',
   'Italian Pizza',
 ];
@@ -51,4 +51,11 @@ List<int> timeTaken = [
   30,
   40,
   50,
+];
+
+List instructions = [
+  'Fill a large pot with water, add a pinch of salt, and bring it to a boil.',
+  'Add spaghetti to the boiling water and cook according to the package instructions (usually 8-12 minutes).',
+  'While the spaghetti cooks, heat olive oil in a pan. Add garlic, onions, and other desired ingredients (e.g., tomatoes, meat, or vegetables) to make the sauce.',
+  'Once cooked, drain the spaghetti using a colander. Save some pasta water if needed for the sauce.',
 ];

@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:flavor_hub/screens/onboarding/onboarding.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/main_screens/home_screen.dart';
+import '../screens/main_screens/secondary/recipe_screen.dart';
+import '../screens/main_screens/secondary/search_screen.dart';
 import '../screens/select_expertise.dart';
 import '../screens/onboarding/splash_screen.dart';
 import 'route_name.dart';
@@ -34,7 +36,7 @@ class RoutePages {
     ),
     GetPage(
       name: AppRoutes.selectExpertise,
-      page: () => const SelectExpertise(),
+      page: () => SelectExpertise(),
     ),
     GetPage(
       name: AppRoutes.homeScreen,
@@ -43,6 +45,15 @@ class RoutePages {
     GetPage(
       name: AppRoutes.navBar,
       page: () => NavBar(),
+    ),
+    GetPage(
+      name: AppRoutes.searchScreen,
+      page: () => SearchScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.recipeScreen,
+      page: () => RecipeScreen(),
+      transition: Transition.fadeIn,
     ),
   ];
 }

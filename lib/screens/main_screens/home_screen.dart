@@ -2,9 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flavor_hub/constants/colors.dart';
 import 'package:flavor_hub/constants/custom_textstyles.dart';
 import 'package:flavor_hub/constants/images.dart';
+import 'package:flavor_hub/page_routes/route_name.dart';
 import 'package:flavor_hub/utilities/extensions.dart';
 import 'package:flavor_hub/widgets/search_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../constants/app_data.dart';
 
@@ -59,7 +61,12 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: SearchTextField(
-                        controller: _search, hintText: 'Search any recipe'),
+                        onTap: () {
+                          Get.toNamed(AppRoutes.searchScreen);
+                        },
+                        readOnly: true,
+                        controller: _search,
+                        hintText: 'Search any recipe'),
                   ),
                   SizedBox(width: 10),
                   Container(

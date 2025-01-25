@@ -1,6 +1,7 @@
 import 'package:flavor_hub/constants/colors.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/main_screens/discover.dart';
 import '../screens/main_screens/favourites.dart';
 import '../screens/main_screens/home_screen.dart';
 import '../screens/main_screens/notifications.dart';
@@ -18,6 +19,7 @@ class _NavBarState extends State<NavBar> {
 
   List<Widget> screensList = [
     HomeScreen(),
+    Discover(),
     Notifications(),
     Favourites(),
     Profile()
@@ -36,10 +38,12 @@ class _NavBarState extends State<NavBar> {
           currentIndex: myIndex,
           type: BottomNavigationBarType.shifting,
           showUnselectedLabels: true,
-          unselectedItemColor: AppColors.lightText2,
+          unselectedItemColor: AppColors.lightText,
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.restaurant_outlined), label: 'Discover'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.notifications_outlined),
                 label: 'Notification'),

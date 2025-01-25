@@ -18,6 +18,7 @@ class AppButton extends StatelessWidget {
       this.padding,
       this.btnChild,
       this.width,
+      this.margin,
       this.radius,
       this.height});
   final Function()? onTap;
@@ -28,7 +29,7 @@ class AppButton extends StatelessWidget {
   final TextStyle? textStyle;
   final BoxBorder? border;
   final double? width, height, radius;
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? padding, margin;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,7 @@ class AppButton extends StatelessWidget {
         width: width,
         height: height ?? 57.0.h,
         padding: padding,
+        margin: margin,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(radius ?? 16),
           border: border,

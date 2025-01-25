@@ -20,6 +20,7 @@ dependencies:
   firebase_core: ^3.10.1
   firebase_auth: ^5.4.1
   cloud_firestore: ^5.6.2
+  iconsax:
 
 dev_dependencies:
   flutter_test:
@@ -57,8 +58,15 @@ flutter:
     - family: Yellow
       fonts:
         - asset: assets/fonts/YelloveDemoRegular-3gyp.ttf
+    #       - asset: fonts/TrajanPro_Bold.ttf
+    #         weight: 700
+    #
+    - family: Bold
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBold.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

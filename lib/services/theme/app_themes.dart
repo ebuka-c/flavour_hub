@@ -25,5 +25,5 @@ class AppThemes {
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
           selectedItemColor: AppColors.appPrimary,
-          unselectedItemColor: AppColors.lightText2));
+          unselectedItemColor: AppColors.lightText));
 }

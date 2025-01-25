@@ -5,31 +5,33 @@ import '../../constants/colors.dart';
 import '../../constants/custom_textstyles.dart';
 
 class SearchTextField extends StatelessWidget {
-  const SearchTextField({
-    super.key,
-    required this.controller,
-    this.validator,
-    this.keyboardType,
-    this.hintText,
-    this.fillColor,
-    this.suffixIcon,
-    this.prefixIcon,
-    this.inputBorder,
-    this.maxLines,
-    this.hintStyle,
-    this.contentPadding,
-    this.cursorColor,
-    this.cursorHeight,
-    this.textStyle,
-    this.focusedBorder,
-    this.padding,
-    this.onChanged,
-    this.enabledWidth,
-    this.enabledRadius,
-    this.focusedWidth,
-    this.focusedRadius,
-    this.borderColor,
-  });
+  const SearchTextField(
+      {super.key,
+      required this.controller,
+      this.validator,
+      this.keyboardType,
+      this.hintText,
+      this.fillColor,
+      this.suffixIcon,
+      this.prefixIcon,
+      this.inputBorder,
+      this.maxLines,
+      this.hintStyle,
+      this.contentPadding,
+      this.cursorColor,
+      this.cursorHeight,
+      this.textStyle,
+      this.focusedBorder,
+      this.padding,
+      this.onChanged,
+      this.enabledWidth,
+      this.enabledRadius,
+      this.autoFocus,
+      this.focusedWidth,
+      this.focusedRadius,
+      this.readOnly,
+      this.borderColor,
+      this.onTap});
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
@@ -40,6 +42,8 @@ class SearchTextField extends StatelessWidget {
   final Widget? suffixIcon, prefixIcon;
   final InputBorder? inputBorder, focusedBorder;
   final int? maxLines;
+  final bool? readOnly, autoFocus;
+  final Function()? onTap;
   final double? cursorHeight,
       enabledWidth,
       enabledRadius,
@@ -59,9 +63,12 @@ class SearchTextField extends StatelessWidget {
           onTapOutside: (PointerDownEvent event) {
             FocusManager.instance.primaryFocus?.unfocus();
           },
+          onTap: onTap,
           controller: controller,
+          autofocus: autoFocus ?? false,
           maxLines: maxLines,
           cursorColor: AppColors.lightText2,
+          readOnly: readOnly ?? false,
           decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
