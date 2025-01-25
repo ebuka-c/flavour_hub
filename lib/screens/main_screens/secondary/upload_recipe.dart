@@ -29,7 +29,7 @@ class _UploadRecipeState extends State<UploadRecipe> {
   final _ingredientsController = TextEditingController();
   bool _isLoading = false;
   //
-  VideoPlayerController? _controller;
+  VideoPlayerController? _videoCntrl;
   String? _videoPath;
 
   Future<void> pickVideo() async {
@@ -40,7 +40,7 @@ class _UploadRecipeState extends State<UploadRecipe> {
     if (result != null) {
       setState(() {
         _videoPath = result.files.single.path;
-        _controller = VideoPlayerController.file(File(_videoPath!))
+        _videoCntrl = VideoPlayerController.file(File(_videoPath!))
           ..initialize().then((_) {
             setState(() {});
           });
@@ -61,6 +61,12 @@ class _UploadRecipeState extends State<UploadRecipe> {
         if (kDebugMode) print('Error uploading video: $e');
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _videoCntrl?.dispose();
+    super.dispose();
   }
 
   //
@@ -240,38 +246,49 @@ class _UploadRecipeState extends State<UploadRecipe> {
                 style: bodyLarge.copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 5.0.h),
-              DottedBorder(
-                color: AppColors.appPrimary,
-                borderType: BorderType.RRect,
-                radius: const Radius.circular(15),
-                dashPattern: const [6, 6, 6, 6],
-                strokeWidth: 0.7,
-                child: Container(
-                  width: double.infinity,
-                  height: 120,
-                  decoration: BoxDecoration(
-                      color: AppColors.imageBox,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Opacity(
-                          opacity: 0.8,
-                          child: Icon(
-                            Icons.play_circle,
-                            color: AppColors.appPrimary,
+              GestureDetector(
+                onTap: () {
+                  pickVideo();
+                },
+                child: DottedBorder(
+                  color: AppColors.appPrimary,
+                  borderType: BorderType.RRect,
+                  radius: const Radius.circular(15),
+                  dashPattern: const [6, 6, 6, 6],
+                  strokeWidth: 0.7,
+                  child: Container(
+                    width: double.infinity,
+                    height: 120,
+                    decoration: BoxDecoration(
+                        color: AppColors.imageBox,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: (_videoCntrl != null &&
+                            _videoCntrl!.value.isInitialized)
+                        ? AspectRatio(
+                            aspectRatio: _videoCntrl?.value.aspectRatio ?? 1,
+                            child: VideoPlayer(_videoCntrl!),
+                          )
+                        : Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Opacity(
+                                  opacity: 0.8,
+                                  child: Icon(
+                                    Icons.play_circle,
+                                    color: AppColors.appPrimary,
+                                  ),
+                                ),
+                                Text(
+                                  'Mp4 file less than 100MB',
+                                  style: bodySmall.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.lightText),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        Text(
-                          'Mp4 file less than 100MB',
-                          style: bodySmall.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.lightText),
-                        )
-                      ],
-                    ),
                   ),
                 ),
               ),
