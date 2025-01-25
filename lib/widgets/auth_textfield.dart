@@ -38,7 +38,12 @@ class AuthTextField extends StatelessWidget {
       this.fieldAction,
       this.minHeight,
       this.maxHeight,
-      this.onChanged});
+      this.onChanged,
+      this.borderRadius,
+      this.errorBorder,
+      this.focusedBorder,
+      this.enabledBorder,
+      this.maxlines});
   final TextEditingController controller;
   final String title;
   final String? subtitle, prefixText;
@@ -51,13 +56,19 @@ class AuthTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final AutovalidateMode? autovalidateMode;
   final Color? enabledBorderColor, focusedBorderColor, bordersideColor;
-  final double? focusedBorderWidth, enabledBorderWidth, minHeight, maxHeight;
+  final double? focusedBorderWidth,
+      enabledBorderWidth,
+      minHeight,
+      maxHeight,
+      borderRadius;
   final double bottomMargin;
   final Function()? onTap;
   final List<TextInputFormatter>? inputFormatters;
   final Widget? prefix;
   final FocusNode? focusNode;
   final Function(String)? onChanged;
+  final InputBorder? errorBorder, focusedBorder, enabledBorder;
+  final int? maxlines;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +85,7 @@ class AuthTextField extends StatelessWidget {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(title, style: bodyMedium),
+                  Text(title, style: titleStyle ?? bodyMedium),
                   fieldAction ?? const SizedBox()
                 ],
               ),
@@ -108,22 +119,27 @@ class AuthTextField extends StatelessWidget {
                   filled: true,
                   prefixText: prefixText,
                   fillColor: Colors.grey.withOpacity(0.15),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        width: 1,
-                        color: bordersideColor ?? AppColors.textfieldBorder),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          width: 1, color: AppColors.errorBorder),
-                      borderRadius: BorderRadius.circular(16)),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          width: enabledBorderWidth ?? 1,
-                          color:
-                              enabledBorderColor ?? AppColors.textfieldBorder),
-                      borderRadius: BorderRadius.circular(16)),
+                  errorBorder: errorBorder ??
+                      OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 1,
+                            color:
+                                bordersideColor ?? AppColors.textfieldBorder),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                  focusedErrorBorder: focusedBorder ??
+                      OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 1, color: AppColors.errorBorder),
+                          borderRadius: BorderRadius.circular(16)),
+                  enabledBorder: enabledBorder ??
+                      OutlineInputBorder(
+                          borderSide: BorderSide(
+                              width: enabledBorderWidth ?? 1,
+                              color: enabledBorderColor ??
+                                  AppColors.textfieldBorder),
+                          borderRadius:
+                              BorderRadius.circular(borderRadius ?? 16)),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                           width: focusedBorderWidth ?? 1.5,
@@ -134,6 +150,7 @@ class AuthTextField extends StatelessWidget {
                   suffixIcon: suffixIcon,
                 ),
                 obscureText: obscureText,
+                maxLines: maxlines,
               ),
         )
       ],

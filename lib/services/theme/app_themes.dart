@@ -8,7 +8,10 @@ class AppThemes {
       brightness: Brightness.light,
       useMaterial3: true,
       fontFamily: 'Poppins',
-      appBarTheme: AppBarTheme(color: AppColors.appBackground, elevation: 0),
+      appBarTheme: AppBarTheme(
+          color: AppColors.appBackground,
+          elevation: 0,
+          titleTextStyle: titleMedium),
       primaryTextTheme: TextTheme(
           titleSmall: titleSmall.copyWith(color: AppColors.primaryText)),
       scaffoldBackgroundColor: AppColors.appBackground,

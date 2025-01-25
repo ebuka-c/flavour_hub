@@ -1,5 +1,6 @@
 import 'package:flavor_hub/screens/auth/account_recovery/forgot_pwd.dart';
 import 'package:flavor_hub/screens/auth/sign_up_screen.dart';
+import 'package:flavor_hub/screens/main_screens/secondary/upload_recipe.dart';
 import 'package:flavor_hub/widgets/nav_bar.dart';
 import 'package:get/get.dart';
 import 'package:flavor_hub/screens/onboarding/onboarding.dart';
@@ -53,6 +54,11 @@ class RoutePages {
     GetPage(
       name: AppRoutes.recipeScreen,
       page: () => RecipeScreen(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: AppRoutes.uploadRecipe,
+      page: () => UploadRecipe(),
       transition: Transition.fadeIn,
     ),
   ];

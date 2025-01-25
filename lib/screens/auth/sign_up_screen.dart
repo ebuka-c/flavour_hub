@@ -123,6 +123,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ),
                         bottomMargin: 16.0.h,
+                        maxlines: 1,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: AppValidators.strongPswdValidator,
                         obscureText: _authC.passwordObscure.value);

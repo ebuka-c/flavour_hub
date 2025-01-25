@@ -100,6 +100,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         bottomMargin: 16.0.h,
+                        maxlines: 1,
                         obscureText: _authC.passwordObscure.value);
                   }),
                   GestureDetector(
@@ -124,6 +125,8 @@ class LoginScreen extends StatelessWidget {
 
                                 if (status) {
                                   Get.toNamed(AppRoutes.selectExpertise);
+                                  _authC.emailController.clear();
+                                  _authC.loginPwdController.clear();
                                 }
                               }
                             },

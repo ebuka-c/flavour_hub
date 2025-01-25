@@ -28,6 +28,7 @@ class AppImages {
   static const spag = "$jpgPath/spag.jpg";
 
   //:LIST OF SVG IMAGES://
+  static const avatar = "$svgPath/avatar.svg";
 
   //NETWORK IMAGES
 
@@ -42,4 +43,7 @@ class AppImages {
 
   static final pizza =
       'https://i.pinimg.com/736x/e9/8c/cf/e98ccf86780edc63033bc0784507a6c1.jpg';
+
+  static final profileHeader =
+      "https://xsgames.co/randomusers/avatar.php?g=male";
 }

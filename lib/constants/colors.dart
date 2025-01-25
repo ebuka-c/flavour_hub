@@ -12,6 +12,7 @@ class AppColors {
   static const lightText2 = Color(0xff999999);
   static const primaryText = Color(0xff1A1A1A);
   static const bottomNavInactive = Color(0xffB3B3B3);
+  static const imageBox = Color(0xffe0e1e2);
   static const appBlue = Color(0xff1877F2);
   static const homeBg = Color(0xfffffaf5);
   static const black = Colors.black;

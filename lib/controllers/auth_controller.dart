@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../constants/colors.dart';
+import '../page_routes/route_name.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -121,8 +122,26 @@ class AuthController extends GetxController {
     }
   }
 
-  // //VERIFICATION
-  // Future<void> sendEmailVerification(BuildContext context) {
-  //   try {} on FirebaseAuthException catch (e) {}
-  // }
+  //logout
+  Future<bool> logout() async {
+    isLoading.value = true;
+    try {
+      await _auth.signOut();
+      Get.offAllNamed(AppRoutes.signInScreen);
+      if (kDebugMode) print('sign out success');
+      return true;
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar(
+        "Error",
+        "${e.message}",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: AppColors.errorBorder,
+        colorText: AppColors.white,
+        duration: const Duration(seconds: 3),
+      );
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }

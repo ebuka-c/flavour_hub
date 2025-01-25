@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../screens/main_screens/discover.dart';
 import '../screens/main_screens/favourites.dart';
 import '../screens/main_screens/home_screen.dart';
-import '../screens/main_screens/notifications.dart';
 import '../screens/main_screens/profile.dart';
 
 class NavBar extends StatefulWidget {
@@ -20,7 +19,6 @@ class _NavBarState extends State<NavBar> {
   List<Widget> screensList = [
     HomeScreen(),
     Discover(),
-    Notifications(),
     Favourites(),
     Profile()
   ];
@@ -44,9 +42,6 @@ class _NavBarState extends State<NavBar> {
                 icon: Icon(Icons.home_outlined), label: 'Home'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.restaurant_outlined), label: 'Discover'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.notifications_outlined),
-                label: 'Notification'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.favorite_outline), label: 'Favourite'),
             BottomNavigationBarItem(

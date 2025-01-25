@@ -24,7 +24,7 @@ class SearchScreen extends StatelessWidget {
             },
             child: Icon(Icons.close, size: 17, weight: 100)),
         centerTitle: false,
-        title: Text('Search Filter',
+        title: Text('Search Recipes',
             style: titleSmall.copyWith(fontWeight: FontWeight.bold)),
         bottom: PreferredSize(
             preferredSize: Size(double.infinity, 55.0.h),
