@@ -34,15 +34,11 @@ class Profile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 70.0),
           child: Column(
             children: [
-              Container(
-                width: 50.0.w,
-                height: 50.0.h,
-                decoration: BoxDecoration(
-                    color: AppColors.textfieldBorder,
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                        image: NetworkImage(AppImages.profileHeader)),
-                    border: Border.all(color: AppColors.lightText2)),
+              CircleAvatar(
+                radius: 25.0.h,
+                foregroundImage: NetworkImage(AppImages.profileHeader),
+                backgroundImage: AssetImage(AppImages.avatar),
+                backgroundColor: AppColors.textfieldBorder,
               ),
               SizedBox(height: 10),
               RichText(

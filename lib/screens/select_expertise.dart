@@ -90,9 +90,10 @@ class SelectExpertise extends StatelessWidget {
             const Spacer(),
             AppButton(
               onTap: () {
+                bool loadData = true;
                 getStorageInstance.write(
                     COOKING_LEVEL, cookingLvl(radioGroupValue.value));
-                Get.toNamed(AppRoutes.navBar);
+                Get.toNamed(AppRoutes.navBar, arguments: loadData);
               },
               text: 'Next',
             )

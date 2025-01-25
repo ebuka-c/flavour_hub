@@ -124,7 +124,7 @@ class LoginScreen extends StatelessWidget {
                                     _authC.loginPwdController.text.trim());
 
                                 if (status) {
-                                  Get.toNamed(AppRoutes.selectExpertise);
+                                  Get.offAllNamed(AppRoutes.selectExpertise);
                                   _authC.emailController.clear();
                                   _authC.loginPwdController.clear();
                                 }

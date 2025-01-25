@@ -1,17 +1,21 @@
+import 'dart:async';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flavor_hub/constants/colors.dart';
 import 'package:flavor_hub/constants/custom_textstyles.dart';
 import 'package:flavor_hub/utilities/extensions.dart';
 import 'package:flavor_hub/widgets/app_button.dart';
 import 'package:flavor_hub/widgets/auth_textfield.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
-import 'dart:typed_data';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'dart:io';
+
+import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
 
 class UploadRecipe extends StatefulWidget {
   const UploadRecipe({super.key});
@@ -21,11 +25,47 @@ class UploadRecipe extends StatefulWidget {
 }
 
 class _UploadRecipeState extends State<UploadRecipe> {
-  final _title = TextEditingController();
-  final _ingredients = TextEditingController();
+  final _titleController = TextEditingController();
+  final _ingredientsController = TextEditingController();
+  bool _isLoading = false;
+  //
+  VideoPlayerController? _controller;
+  String? _videoPath;
+
+  Future<void> pickVideo() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.video,
+    );
+
+    if (result != null) {
+      setState(() {
+        _videoPath = result.files.single.path;
+        _controller = VideoPlayerController.file(File(_videoPath!))
+          ..initialize().then((_) {
+            setState(() {});
+          });
+      });
+    }
+  }
+
+  Future<void> uploadVideo() async {
+    if (_videoPath != null) {
+      try {
+        Reference ref = FirebaseStorage.instance
+            .ref()
+            .child('videos/${_videoPath!.split('/').last}');
+        await ref.putFile(File(_videoPath!));
+        String downloadUrl = await ref.getDownloadURL();
+        if (kDebugMode) print('Video uploaded successfully: $downloadUrl');
+      } catch (e) {
+        if (kDebugMode) print('Error uploading video: $e');
+      }
+    }
+  }
+
+  //
 
   // storage and firestore
-  final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   List<File?> pickedImages = [null, null, null];
@@ -41,6 +81,70 @@ class _UploadRecipeState extends State<UploadRecipe> {
       });
     } else {
       if (kDebugMode) print("No image selected.");
+    }
+  }
+
+  Future<void> uploadRecipeData() async {
+    if (_titleController.text.isEmpty || _ingredientsController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please fill all fields")),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // Set timeout for Firestore operation
+      await _firestore.collection('recipes').add({
+        'title': _titleController.text,
+        'ingredients': _ingredientsController.text,
+        'timestamp': FieldValue.serverTimestamp(),
+      }).timeout(
+        const Duration(seconds: 60),
+        onTimeout: () {
+          throw TimeoutException("The upload operation timed out.");
+        },
+      );
+
+      Get.snackbar(
+        "Success",
+        "Recipe uploaded successfully!",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          Icons.check_circle,
+          color: AppColors.appPrimary,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
+      );
+
+      _titleController.clear();
+      _ingredientsController.clear();
+    } on TimeoutException catch (e) {
+      Get.snackbar(
+        "Timeout occurred",
+        "",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          CupertinoIcons.exclamationmark_circle,
+          color: AppColors.appRed,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error uploading recipe: $e")),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -173,7 +277,7 @@ class _UploadRecipeState extends State<UploadRecipe> {
               ),
               SizedBox(height: 20.0.h),
               AuthTextField(
-                  controller: _title,
+                  controller: _titleController,
                   title: 'Recipe Title',
                   titleStyle: bodyLarge.copyWith(fontWeight: FontWeight.bold),
                   obscureText: false,
@@ -184,7 +288,7 @@ class _UploadRecipeState extends State<UploadRecipe> {
                   borderRadius: 16,
                   bottomMargin: 20.0.h),
               AuthTextField(
-                  controller: _ingredients,
+                  controller: _ingredientsController,
                   title: 'Ingredients',
                   titleStyle: bodyLarge.copyWith(fontWeight: FontWeight.bold),
                   obscureText: false,
@@ -196,9 +300,12 @@ class _UploadRecipeState extends State<UploadRecipe> {
                   borderRadius: 16,
                   bottomMargin: 25.0.h),
               AppButton(
-                onTap: () {},
+                onTap: () {
+                  uploadRecipeData();
+                },
                 text: 'Upload Recipe',
-              )
+                isLoading: _isLoading ? true : false,
+              ),
             ],
           ),
         ),
