@@ -7,6 +7,7 @@ import 'package:flavor_hub/screens/onboarding/onboarding.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/main_screens/home_screen.dart';
 import '../screens/main_screens/secondary/my_recipe_details.dart';
+import '../screens/main_screens/secondary/recipe_details.dart';
 import '../screens/main_screens/secondary/recipes_by_you.dart';
 import '../screens/main_screens/secondary/search_screen.dart';
 import '../screens/select_expertise.dart';
@@ -51,6 +52,11 @@ class RoutePages {
     GetPage(
       name: AppRoutes.searchScreen,
       page: () => SearchScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.recipeScreen,
+      page: () => RecipeDetails(),
+      transition: Transition.fadeIn,
     ),
     GetPage(
       name: AppRoutes.myRecipeDetails,

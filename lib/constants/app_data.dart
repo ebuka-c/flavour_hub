@@ -67,7 +67,13 @@ List<Map> recipesTile = [
     'image':
         'https://i.pinimg.com/736x/b3/52/34/b3523405b4c3c41e08f99706851d20ec.jpg',
     'duration': 40,
-    'favourite': false
+    'favourite': false,
+    'ingredients': [
+      'Chicken breasts',
+      'Fillets',
+      'TBSP olive oil',
+      'Fat garlic clove'
+    ]
   },
   {
     'nationality': 'Italian',
@@ -75,7 +81,13 @@ List<Map> recipesTile = [
     'image':
         'https://i.pinimg.com/736x/20/c1/53/20c153196c02a95c052e620480e09b3c.jpg',
     'duration': 50,
-    'favourite': false
+    'favourite': false,
+    'ingredients': [
+      '1/2 pound large shells pasta',
+      '1 pound ground beef',
+      '2 tablespoons taco seasoning',
+      'Pepper'
+    ]
   },
   {
     'nationality': 'Ghanian',
@@ -83,7 +95,8 @@ List<Map> recipesTile = [
     'image':
         'https://i.pinimg.com/736x/60/bc/03/60bc0360b5a49822970091e25ff749ee.jpg',
     'duration': 40,
-    'favourite': false
+    'favourite': false,
+    'ingredients': ['taro leaves (kontomire)', 'boiled plantain', 'yam', 'salt']
   },
   {
     'nationality': 'Chinese',
@@ -91,7 +104,14 @@ List<Map> recipesTile = [
     'image':
         'https://www.recipetineats.com/tachyon/2019/11/Lo-Mein_5.jpg?resize=900%2C1260&zoom=0.72',
     'duration': 40,
-    'favourite': false
+    'favourite': false,
+    'ingredients': [
+      'egg noodles',
+      'vegetables',
+      'protein',
+      'sauce',
+      'sesame oil'
+    ]
   },
   {
     'nationality': 'Mexican',
@@ -99,7 +119,14 @@ List<Map> recipesTile = [
     'image':
         'https://i0.wp.com/northeastnosh.com/wp-content/uploads/2024/05/Cheesy-Beef-Fiesta-Wraps.jpg?w=960&ssl=1',
     'duration': 50,
-    'favourite': false
+    'favourite': false,
+    'ingredients': [
+      '1 lb. ground beef',
+      '1 cup nacho cheese sauce',
+      '4 large flour tortillas',
+      '1/2 cup diced tomatoes',
+      '1/4 cup sliced jalapeños'
+    ]
   },
   {
     'nationality': 'Brazilian',
@@ -107,6 +134,29 @@ List<Map> recipesTile = [
     'image':
         'https://i.pinimg.com/736x/b4/89/cf/b489cf6b6caa47800d3056a2bec1c564.jpg',
     'duration': 70,
-    'favourite': false
+    'favourite': false,
+    'ingredients': [
+      'firm white fish',
+      'onions',
+      'garlic',
+      'bell peppers',
+      'tomatoes',
+      'cilantro',
+      'coconut milk'
+    ]
+  },
+  {
+    'nationality': 'Italian',
+    'name': 'Pizza',
+    'image': AppImages.pizza,
+    'duration': 70,
+    'favourite': false,
+    'ingredients': [
+      'Olive oil',
+      'Tsp salt',
+      '1 and 1/3 cups (320ml) warm water',
+      'Dried basil',
+      'Yeast'
+    ]
   },
 ];
