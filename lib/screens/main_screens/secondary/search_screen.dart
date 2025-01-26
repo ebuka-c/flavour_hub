@@ -3,6 +3,7 @@ import 'package:flavor_hub/constants/colors.dart';
 import 'package:flavor_hub/constants/custom_textstyles.dart';
 import 'package:flavor_hub/screens/main_screens/secondary/recipe_details.dart';
 import 'package:flavor_hub/utilities/extensions.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -93,7 +94,7 @@ class _SearchScreenState extends State<SearchScreen> {
               controller: searchCntrl,
               inputBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
-              hintText: 'Search by name, ingredients or nationality',
+              hintText: 'Search by name, ingredients or diet type',
               hintStyle: bodyMedium.copyWith(
                   color: AppColors.lightText2, fontFamily: ''),
               autoFocus: true,
@@ -173,7 +174,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                     ),
                                     const Spacer(),
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        shareRecipe(recipe);
+                                      },
                                       child:
                                           Icon(Icons.share_rounded, size: 15),
                                     ),

@@ -3,12 +3,14 @@ import 'package:flavor_hub/constants/colors.dart';
 import 'package:flavor_hub/constants/custom_textstyles.dart';
 import 'package:flavor_hub/constants/images.dart';
 import 'package:flavor_hub/page_routes/route_name.dart';
+import 'package:flavor_hub/screens/main_screens/secondary/food_categ/categories.dart';
 import 'package:flavor_hub/utilities/extensions.dart';
 import 'package:flavor_hub/widgets/search_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_data.dart';
+import 'secondary/recommended/recommended.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -97,38 +99,46 @@ class HomeScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (_, index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 70.0.w,
-                          height: 70.0.h,
-                          margin: EdgeInsets.only(
-                              right: index == categ.length - 1 ? 15.0.w : 0.0,
-                              left: index == 0 ? 15.0.w : 0),
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Image.asset(
-                              categImages[index],
-                              width: 40.0.w,
-                              height: 40.0.h,
+                    final categName = categ[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(Categories(
+                          title: categName,
+                        ));
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 70.0.w,
+                            height: 70.0.h,
+                            margin: EdgeInsets.only(
+                                right: index == categ.length - 1 ? 15.0.w : 0.0,
+                                left: index == 0 ? 15.0.w : 0),
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Image.asset(
+                                categImages[index],
+                                width: 40.0.w,
+                                height: 40.0.h,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 5.0.h),
-                        Padding(
-                          padding:
-                              EdgeInsets.only(left: index == 0 ? 15.0.w : 0),
-                          child: Text(
-                            '  ${categ[index]}',
-                            style:
-                                bodySmall.copyWith(fontWeight: FontWeight.w700),
-                          ),
-                        )
-                      ],
+                          SizedBox(height: 5.0.h),
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: index == 0 ? 15.0.w : 0),
+                            child: Text(
+                              '  $categName',
+                              style: bodySmall.copyWith(
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          )
+                        ],
+                      ),
                     );
                   },
                   separatorBuilder: (_, __) => SizedBox(
@@ -146,7 +156,9 @@ class HomeScreen extends StatelessWidget {
                   Text('Recommended for you',
                       style: titleSmall.copyWith(fontWeight: FontWeight.w700)),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(Recommended(title: 'Recommended'));
+                    },
                     child: Text(
                       'See more ',
                       style: bodySmall.copyWith(
@@ -236,7 +248,9 @@ class HomeScreen extends StatelessWidget {
                   Text('Recipes of the week',
                       style: titleSmall.copyWith(fontWeight: FontWeight.w700)),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(Recommended(title: 'Top Recipes'));
+                    },
                     child: Text(
                       'See more ',
                       style: bodySmall.copyWith(

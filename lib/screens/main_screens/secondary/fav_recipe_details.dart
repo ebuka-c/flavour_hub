@@ -3,9 +3,7 @@ import 'package:flavor_hub/constants/colors.dart';
 import 'package:flavor_hub/constants/custom_textstyles.dart';
 import 'package:flavor_hub/utilities/extensions.dart';
 import 'package:flavor_hub/widgets/app_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class FavRecipeDetails extends StatefulWidget {
