@@ -69,14 +69,17 @@ class HomeScreen extends StatelessWidget {
                         hintText: 'Search any recipe'),
                   ),
                   SizedBox(width: 10),
-                  Container(
-                    width: 47.0.w,
-                    height: 47.0.h,
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: AppColors.appPrimary),
-                    child: Icon(Icons.sort, color: AppColors.white),
+                  GestureDetector(
+                    onTap: () => Get.toNamed(AppRoutes.searchScreen),
+                    child: Container(
+                      width: 47.0.w,
+                      height: 47.0.h,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: AppColors.appPrimary),
+                      child: Icon(Icons.sort, color: AppColors.white),
+                    ),
                   )
                 ],
               ),

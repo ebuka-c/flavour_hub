@@ -3,29 +3,32 @@ import 'package:flavor_hub/constants/colors.dart';
 import 'package:flavor_hub/constants/custom_textstyles.dart';
 import 'package:flavor_hub/utilities/extensions.dart';
 import 'package:flavor_hub/widgets/app_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-class RecipeDetails extends StatefulWidget {
-  RecipeDetails(
+class FavRecipeDetails extends StatefulWidget {
+  FavRecipeDetails(
       {super.key,
-      this.filteredName,
-      this.filteredDuration,
-      this.filteredImage,
-      this.filteredIngred,
-      this.recipeId,
-      this.isFavourite});
-  final String? filteredName, filteredImage;
-  final int? filteredDuration;
-  final List<String>? filteredIngred;
-  bool? isFavourite;
-  int? recipeId;
+      this.recipeName,
+      this.recipeFav,
+      this.recipeImg,
+      this.recipeIngred,
+      this.recipeDur,
+      this.recipeId});
+
+  final String? recipeName, recipeImg;
+  bool? recipeFav;
+  final int? recipeDur;
+  final recipeIngred;
+  final recipeId;
 
   @override
-  State<RecipeDetails> createState() => _RecipeScreenState();
+  State<FavRecipeDetails> createState() => _FavRecipeDetailsState();
 }
 
-class _RecipeScreenState extends State<RecipeDetails>
+class _FavRecipeDetailsState extends State<FavRecipeDetails>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -54,15 +57,12 @@ class _RecipeScreenState extends State<RecipeDetails>
         foregroundColor: AppColors.white,
         elevation: 0,
         actions: [
-          GestureDetector(
-            onTap: () async {},
-            child: Icon(
-              (widget.isFavourite ?? false)
-                  ? Icons.favorite
-                  : Icons.favorite_outline,
-              color: (widget.isFavourite ?? false) ? Colors.amberAccent : null,
-              size: 30,
-            ),
+          Icon(
+            (widget.recipeFav ?? false)
+                ? Icons.favorite
+                : Icons.favorite_outline,
+            color: (widget.recipeFav ?? false) ? Colors.amberAccent : null,
+            size: 30,
           ),
           SizedBox(width: 15.0.w)
         ],
@@ -78,7 +78,7 @@ class _RecipeScreenState extends State<RecipeDetails>
               height: MediaQuery.of(context).size.height / 1.9,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(widget.filteredImage ?? ''),
+                  image: NetworkImage(widget.recipeImg ?? ''),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -126,7 +126,7 @@ class _RecipeScreenState extends State<RecipeDetails>
                         SizedBox(
                           width: 250,
                           child: Text(
-                            widget.filteredName ?? 'Untitled',
+                            widget.recipeName ?? 'Untitled',
                             style: titleSmall.copyWith(
                               fontFamily: 'Bold',
                               fontWeight: FontWeight.bold,
@@ -141,7 +141,7 @@ class _RecipeScreenState extends State<RecipeDetails>
                         ),
                         SizedBox(width: 8.0.w),
                         Text(
-                          '${widget.filteredDuration} min',
+                          '${widget.recipeDur} min',
                           style:
                               bodySmall.copyWith(color: AppColors.lightText2),
                         )
@@ -151,7 +151,7 @@ class _RecipeScreenState extends State<RecipeDetails>
                     SizedBox(height: 10),
                     // Recipe Description
                     Text(
-                      'A step-by-step guide to make delicious ${widget.filteredName} at home.',
+                      'A step-by-step guide to make delicious ${widget.recipeName} at home.',
                       style: bodyMedium.copyWith(
                         fontSize: 16,
                         color: AppColors.lightText,
@@ -229,7 +229,7 @@ class _RecipeScreenState extends State<RecipeDetails>
                                               ),
                                               SizedBox(width: 8),
                                               Text(
-                                                ' - ${widget.filteredIngred?[index] ?? ''}',
+                                                ' - ${widget.recipeIngred?[index] ?? ''}',
                                               )
                                             ],
                                           );
@@ -237,7 +237,7 @@ class _RecipeScreenState extends State<RecipeDetails>
                                         separatorBuilder: (_, __) =>
                                             SizedBox(height: 1),
                                         itemCount:
-                                            widget.filteredIngred?.length ?? 0),
+                                            widget.recipeIngred?.length ?? 0),
                                   ],
                                 ),
                                 // Instruction Tab
@@ -307,12 +307,4 @@ class _RecipeScreenState extends State<RecipeDetails>
       ),
     );
   }
-
-  final ingredients = [
-    '200g Pasta',
-    '2 Cups Tomato Sauce',
-    '1 Cup Grated Cheese',
-    '2 tbsp Olive Oil',
-    'Salt and Pepper to taste',
-  ];
 }

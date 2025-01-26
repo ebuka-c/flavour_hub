@@ -29,6 +29,29 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
+  void toggleFavorite(Map recipe) {
+    setState(() {
+      recipe['favourite'] = !recipe['favourite'];
+      if (recipe['favourite']) {
+        myFavorites.add(recipe);
+        Get.snackbar(
+          "Favourite",
+          "Recipe added to favourites",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.grey.withOpacity(0.2),
+          icon: Icon(
+            Icons.check_circle,
+            color: AppColors.appPrimary,
+          ),
+          colorText: AppColors.primaryText,
+          duration: const Duration(seconds: 2),
+        );
+      } else {
+        myFavorites.removeWhere((item) => item['name'] == recipe['name']);
+      }
+    });
+  }
+
   void filterRecipes() {
     String query = searchCntrl.text.toLowerCase();
     setState(() {
@@ -90,18 +113,23 @@ class _SearchScreenState extends State<SearchScreen> {
             : ListView.separated(
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
+                  final recipe = filteredRecipes[index];
+
                   return GestureDetector(
                     onTap: () {
                       var filteredName = filteredRecipes[index]['name'];
                       var filteredImage = filteredRecipes[index]['image'];
                       var filteredDuration = filteredRecipes[index]['duration'];
+                      var isFavourite = recipe['favourite'];
                       List<String> filteredIngred =
                           filteredRecipes[index]['ingredients'];
                       Get.to(RecipeDetails(
                           filteredName: filteredName,
                           filteredDuration: filteredDuration,
                           filteredImage: filteredImage,
-                          filteredIngred: filteredIngred));
+                          filteredIngred: filteredIngred,
+                          recipeId: index,
+                          isFavourite: isFavourite));
                     },
                     child: Container(
                       width: double.infinity,
@@ -150,7 +178,19 @@ class _SearchScreenState extends State<SearchScreen> {
                                           Icon(Icons.share_rounded, size: 15),
                                     ),
                                     SizedBox(width: 8.0.w),
-                                    Icon(Icons.favorite_outline, size: 16),
+                                    InkWell(
+                                      onTap: () {
+                                        toggleFavorite(recipe);
+                                      },
+                                      child: Icon(
+                                          recipe['favourite']
+                                              ? Icons.favorite
+                                              : Icons.favorite_outline,
+                                          color: recipe['favourite']
+                                              ? AppColors.appRed
+                                              : null,
+                                          size: 16),
+                                    ),
                                   ],
                                 ),
                                 SizedBox(height: 10.0.h),

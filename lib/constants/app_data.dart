@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flavor_hub/constants/images.dart';
+import 'package:flavor_hub/constants/locals.dart';
 
 final categImages = [
   AppImages.breakfast,
@@ -59,6 +62,8 @@ List instructions = [
   'While the spaghetti cooks, heat olive oil in a pan. Add garlic, onions, and other desired ingredients (e.g., tomatoes, meat, or vegetables) to make the sauce.',
   'Once cooked, drain the spaghetti using a colander. Save some pasta water if needed for the sauce.',
 ];
+
+List<Map> myFavorites = [];
 
 List<Map> recipesTile = [
   {
@@ -160,3 +165,12 @@ List<Map> recipesTile = [
     ]
   },
 ];
+
+// Save favorites
+Future<void> saveFavorites(List<Map<String, dynamic>> favorites) async {
+  // Convert the list of favorites to a JSON string
+  String favoritesJson = jsonEncode(favorites);
+
+  // Save the JSON string in GetStorage
+  await getStorageInstance.write(FAVOURITES, favoritesJson);
+}
