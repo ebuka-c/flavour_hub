@@ -9,10 +9,14 @@ import 'package:iconsax/iconsax.dart';
 import '../../../constants/images.dart';
 
 class RecipeScreen extends StatefulWidget {
-  RecipeScreen({super.key});
+  const RecipeScreen(
+      {super.key, this.title, this.myIngredients, this.myRecipes});
 
+  final String? title;
+  final List<String>? myIngredients;
+  final bool? myRecipes;
   @override
-  _RecipeScreenState createState() => _RecipeScreenState();
+  State<RecipeScreen> createState() => _RecipeScreenState();
 }
 
 class _RecipeScreenState extends State<RecipeScreen>
@@ -45,14 +49,16 @@ class _RecipeScreenState extends State<RecipeScreen>
         foregroundColor: AppColors.white,
         elevation: 0,
         actions: [
-          GestureDetector(
-            onTap: () {},
-            child: Icon(
-              Icons.favorite_outline_outlined,
-              color: AppColors.white,
-              size: 30,
-            ),
-          ),
+          widget.myRecipes == null
+              ? GestureDetector(
+                  onTap: () {},
+                  child: Icon(
+                    Icons.favorite_outline_outlined,
+                    color: AppColors.white,
+                    size: 30,
+                  ),
+                )
+              : SizedBox(),
           SizedBox(width: 15.0.w)
         ],
       ),
@@ -67,7 +73,9 @@ class _RecipeScreenState extends State<RecipeScreen>
               height: MediaQuery.of(context).size.height / 1.9,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(AppImages.pizza),
+                  image: widget.myRecipes == true
+                      ? AssetImage(AppImages.egusi)
+                      : NetworkImage(AppImages.pizza),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -115,7 +123,7 @@ class _RecipeScreenState extends State<RecipeScreen>
                         SizedBox(
                           width: 250,
                           child: Text(
-                            'Fried crispy chicken with sausage.',
+                            widget.title ?? 'Fried chicken with sausage',
                             style: titleSmall.copyWith(
                               fontFamily: 'Bold',
                               fontWeight: FontWeight.bold,
@@ -140,8 +148,10 @@ class _RecipeScreenState extends State<RecipeScreen>
                     SizedBox(height: 10),
                     // Recipe Description
                     Text(
-                      'A step-by-step guide to make delicious pasta at home. '
-                      'This recipe is easy, flavorful, and perfect for any occasion.',
+                      widget.myRecipes == null
+                          ? 'A step-by-step guide to make delicious pasta at home. '
+                              'This recipe is easy, flavorful, and perfect for any occasion.'
+                          : 'A step-by-step guide to make delicious ${widget.title} at home.',
                       style: bodyMedium.copyWith(
                         fontSize: 16,
                         color: AppColors.lightText,
@@ -218,13 +228,16 @@ class _RecipeScreenState extends State<RecipeScreen>
                                                     size: 18),
                                               ),
                                               SizedBox(width: 8),
-                                              Text(ingredients[index])
+                                              Text(
+                                                  // ''' - ${widget.myRecipes != null ? (widget.myIngredients?[index] ?? '') : ingredients[index]}'''
+                                                  ' - ${widget.myRecipes == null ? ingredients[index] : (widget.myIngredients?[index] ?? '')}')
                                             ],
                                           );
                                         },
                                         separatorBuilder: (_, __) =>
                                             SizedBox(height: 1),
-                                        itemCount: ingredients.length),
+                                        itemCount:
+                                            widget.myIngredients?.length ?? 0),
                                   ],
                                 ),
                                 // Instruction Tab
@@ -296,10 +309,10 @@ class _RecipeScreenState extends State<RecipeScreen>
   }
 
   final ingredients = [
-    ' - 200g Pasta',
-    ' - 2 Cups Tomato Sauce',
-    ' - 1 Cup Grated Cheese',
-    ' - 2 tbsp Olive Oil',
-    ' - Salt and Pepper to taste',
+    '200g Pasta',
+    '2 Cups Tomato Sauce',
+    '1 Cup Grated Cheese',
+    '2 tbsp Olive Oil',
+    'Salt and Pepper to taste',
   ];
 }

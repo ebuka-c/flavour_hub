@@ -21,6 +21,8 @@ class AppImages {
   static const ob1 = "$jpgPath/ob1.jpg";
   static const ob2 = "$jpgPath/ob2.jpeg";
   static const ob3 = "$jpgPath/ob3.jpg";
+  static const nkw = "$jpgPath/nkw.jpg";
+  static const egusi = "$jpgPath/egusi.jpg";
   //
   static const butterchicken = "$jpgPath/butterchicken.jpg";
   static const jollofrice = "$jpgPath/jollofrice.jpg";

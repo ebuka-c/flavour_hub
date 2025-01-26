@@ -65,9 +65,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 40.0.h),
+                SizedBox(height: 30.0.h),
                 SizedBox(
-                  height: 190,
+                  height: 170,
                   child: PageView(
                     controller: _pageController1,
                     physics: NeverScrollableScrollPhysics(), // Disable swiping
@@ -181,7 +181,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           )
                         ],
                       ),
-                SizedBox(height: 80.0.h)
+                SizedBox(height: 50.0.h)
               ],
             ),
           ),
@@ -189,7 +189,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             clipper: RPSCustomClipper(),
             child: SizedBox(
               width: w,
-              height: h / 1.87,
+              height: h / 1.82,
               child: PageView(
                 controller: _pageController2,
                 physics: NeverScrollableScrollPhysics(), // Disable swiping

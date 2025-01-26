@@ -31,12 +31,13 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     if (widget.loadData && isLoading) {
-      Future.delayed(Duration(seconds: 5), () {
+      Future.delayed(Duration(seconds: 3), () {
         setState(() {
           isLoading = false; // Update loading state to false
         });
       });
     }
+
     return Scaffold(
       body: isLoading
           ? Center(

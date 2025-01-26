@@ -92,8 +92,107 @@ class _UploadRecipeState extends State<UploadRecipe> {
 
   Future<void> uploadRecipeData() async {
     if (_titleController.text.isEmpty || _ingredientsController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please fill all fields")),
+      Get.snackbar(
+        "Please fill all fields",
+        "",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          CupertinoIcons.exclamationmark_circle,
+          color: AppColors.appRed,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // Convert ingredients to a list of strings by splitting on commas
+      List<String> ingredientsList = _ingredientsController.text
+          .split(',')
+          .map((e) => e.trim())
+          .where((element) => element.isNotEmpty)
+          .toList();
+
+      // Store the recipe with the list of ingredients
+      await _firestore.collection('recipes').add({
+        'title': _titleController.text,
+        'ingredients': ingredientsList,
+        'timestamp': FieldValue.serverTimestamp(),
+      }).timeout(
+        const Duration(seconds: 60),
+        onTimeout: () {
+          throw TimeoutException("The upload operation timed out.");
+        },
+      );
+
+      Get.snackbar(
+        "Recipe uploaded successfully!",
+        "",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          Icons.check_circle,
+          color: AppColors.appPrimary,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
+      );
+
+      _titleController.clear();
+      _ingredientsController.clear();
+    } on TimeoutException catch (e) {
+      Get.snackbar(
+        "Timeout occurred",
+        "${e.message}",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          CupertinoIcons.exclamationmark_circle,
+          color: AppColors.appRed,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
+      );
+    } catch (e) {
+      Get.snackbar(
+        "Error uploading recipe",
+        " $e",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          CupertinoIcons.exclamationmark_circle,
+          color: AppColors.appRed,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+/*
+  Future<void> uploadRecipeData() async {
+    if (_titleController.text.isEmpty || _ingredientsController.text.isEmpty) {
+      Get.snackbar(
+        "Please fill all fields",
+        "",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          CupertinoIcons.exclamationmark_circle,
+          color: AppColors.appRed,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 4),
       );
       return;
     }
@@ -133,7 +232,7 @@ class _UploadRecipeState extends State<UploadRecipe> {
     } on TimeoutException catch (e) {
       Get.snackbar(
         "Timeout occurred",
-        "",
+        "${e.message}",
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.grey.withOpacity(0.2),
         icon: Icon(
@@ -144,8 +243,17 @@ class _UploadRecipeState extends State<UploadRecipe> {
         duration: const Duration(seconds: 5),
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error uploading recipe: $e")),
+      Get.snackbar(
+        "Error uploading recipe",
+        "",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          CupertinoIcons.exclamationmark_circle,
+          color: AppColors.appRed,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
       );
     } finally {
       setState(() {
@@ -153,7 +261,7 @@ class _UploadRecipeState extends State<UploadRecipe> {
       });
     }
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
@@ -313,6 +421,8 @@ class _UploadRecipeState extends State<UploadRecipe> {
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   errorBorder: InputBorder.none,
+                  hintText:
+                      "Use commas to separate ingredients (e.g., Flour, Sugar, Milk)",
                   maxlines: 4,
                   borderRadius: 16,
                   bottomMargin: 25.0.h),
