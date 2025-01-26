@@ -1,7 +1,5 @@
-import 'dart:convert';
-
 import 'package:flavor_hub/constants/images.dart';
-import 'package:flavor_hub/constants/locals.dart';
+import 'package:share_plus/share_plus.dart';
 
 final categImages = [
   AppImages.breakfast,
@@ -67,7 +65,7 @@ List<Map> myFavorites = [];
 
 List<Map> recipesTile = [
   {
-    'nationality': 'Spanish',
+    'nationality': 'Keto', //changing nationality values to dietary preferences
     'name': 'Chicken and Chorizo Paella',
     'image':
         'https://i.pinimg.com/736x/b3/52/34/b3523405b4c3c41e08f99706851d20ec.jpg',
@@ -81,7 +79,7 @@ List<Map> recipesTile = [
     ]
   },
   {
-    'nationality': 'Italian',
+    'nationality': 'Keto', //changing nationality values to dietary preferences
     'name': 'Cheesy Taco Pasta',
     'image':
         'https://i.pinimg.com/736x/20/c1/53/20c153196c02a95c052e620480e09b3c.jpg',
@@ -95,7 +93,8 @@ List<Map> recipesTile = [
     ]
   },
   {
-    'nationality': 'Ghanian',
+    'nationality':
+        'Vegetarian', //changing nationality values to dietary preferences
     'name': 'Kontomire and Ampesi',
     'image':
         'https://i.pinimg.com/736x/60/bc/03/60bc0360b5a49822970091e25ff749ee.jpg',
@@ -104,7 +103,7 @@ List<Map> recipesTile = [
     'ingredients': ['taro leaves (kontomire)', 'boiled plantain', 'yam', 'salt']
   },
   {
-    'nationality': 'Chinese',
+    'nationality': 'Vegetarian',
     'name': 'Lo Mein Noodles',
     'image':
         'https://www.recipetineats.com/tachyon/2019/11/Lo-Mein_5.jpg?resize=900%2C1260&zoom=0.72',
@@ -119,7 +118,7 @@ List<Map> recipesTile = [
     ]
   },
   {
-    'nationality': 'Mexican',
+    'nationality': 'Keto',
     'name': 'Cheesy Beef Fiesta Wraps',
     'image':
         'https://i0.wp.com/northeastnosh.com/wp-content/uploads/2024/05/Cheesy-Beef-Fiesta-Wraps.jpg?w=960&ssl=1',
@@ -134,7 +133,7 @@ List<Map> recipesTile = [
     ]
   },
   {
-    'nationality': 'Brazilian',
+    'nationality': 'Gluten-Free',
     'name': 'Moqueca (Brazilian Seafood Stew)',
     'image':
         'https://i.pinimg.com/736x/b4/89/cf/b489cf6b6caa47800d3056a2bec1c564.jpg',
@@ -151,7 +150,7 @@ List<Map> recipesTile = [
     ]
   },
   {
-    'nationality': 'Italian',
+    'nationality': 'Fast Food',
     'name': 'Pizza',
     'image': AppImages.pizza,
     'duration': 70,
@@ -166,6 +165,19 @@ List<Map> recipesTile = [
   },
 ];
 
+void shareRecipe(Map recipe) {
+  final String recipeName = recipe['name'];
+  final String recipeIngredients =
+      (recipe['ingredients'] as List<String>).join(', ');
+  final String recipeImage = recipe['image'];
+
+  String content =
+      "Check out this recipe: $recipeName\nIngredients: $recipeIngredients\nRecipe Image: $recipeImage";
+
+  Share.share(content);
+}
+
+/*
 // Save favorites
 Future<void> saveFavorites(List<Map> favorites) async {
   // Convert the list of favorites to a JSON string
@@ -187,3 +199,4 @@ Future<List<Map>> loadFavorites() async {
     return [];
   }
 }
+*/

@@ -5,14 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../constants/colors.dart';
 import '../page_routes/route_name.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final nameController = TextEditingController();
   final signUpEmailController = TextEditingController();
@@ -21,6 +18,7 @@ class AuthController extends GetxController {
   final loginPwdController = TextEditingController();
   final newPassword = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final sendPwdResetEmail = TextEditingController();
   final passwordObscure = true.obs;
   final confirmPasswordObscure = true.obs;
 
@@ -52,11 +50,6 @@ class AuthController extends GetxController {
       // Update the user's display name
       await userCredential.user!.updateDisplayName(nameController.text.trim());
 
-      // Save the user's name to Firestore (optional)
-      // await _firestore.collection('users').doc(userCredential.user!.uid).set({
-      //   'name': nameController.text.trim(),
-      //   'email': email,
-      // });
       return true;
     } on FirebaseAuthException catch (e) {
       Get.snackbar(
@@ -114,8 +107,8 @@ class AuthController extends GetxController {
   Future<bool> resetPwd() async {
     isLoading.value = true;
     try {
-      if (kDebugMode) print(emailController.text.trim());
-      await _auth.sendPasswordResetEmail(email: emailController.text.trim());
+      if (kDebugMode) print(sendPwdResetEmail.text.trim());
+      await _auth.sendPasswordResetEmail(email: sendPwdResetEmail.text.trim());
       return true;
     } on FirebaseAuthException catch (e) {
       Get.snackbar(
