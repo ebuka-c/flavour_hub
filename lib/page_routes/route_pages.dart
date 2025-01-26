@@ -6,7 +6,8 @@ import 'package:get/get.dart';
 import 'package:flavor_hub/screens/onboarding/onboarding.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/main_screens/home_screen.dart';
-import '../screens/main_screens/secondary/recipe_screen.dart';
+import '../screens/main_screens/secondary/my_recipe_details.dart';
+import '../screens/main_screens/secondary/recipes_by_you.dart';
 import '../screens/main_screens/secondary/search_screen.dart';
 import '../screens/select_expertise.dart';
 import '../screens/onboarding/splash_screen.dart';
@@ -52,13 +53,18 @@ class RoutePages {
       page: () => SearchScreen(),
     ),
     GetPage(
-      name: AppRoutes.recipeScreen,
-      page: () => RecipeScreen(),
+      name: AppRoutes.myRecipeDetails,
+      page: () => MyRecipeDetails(),
       transition: Transition.fadeIn,
     ),
     GetPage(
       name: AppRoutes.uploadRecipe,
       page: () => UploadRecipe(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: AppRoutes.byYou,
+      page: () => RecipesByYou(),
       transition: Transition.fadeIn,
     ),
   ];

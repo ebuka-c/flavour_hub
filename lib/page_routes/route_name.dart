@@ -13,4 +13,6 @@ class AppRoutes {
   static const String searchScreen = "/searchScreen";
   static const String recipeScreen = "/recipeScreen";
   static const String uploadRecipe = "/uploadRecipe";
+  static const String byYou = "/byYou";
+  static const String myRecipeDetails = "/myRecipeDetails";
 }

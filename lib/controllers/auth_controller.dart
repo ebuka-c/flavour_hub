@@ -40,7 +40,6 @@ class AuthController extends GetxController {
     try {
       final userCredential = await _auth.createUserWithEmailAndPassword(
           email: email, password: pwd);
-      // print(userCredential.user?.uid);
 
       // Update the user's display name
       await userCredential.user!.updateDisplayName(nameController.text.trim());

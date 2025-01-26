@@ -31,6 +31,7 @@ class AuthTextField extends StatelessWidget {
       this.subtitle,
       this.alternativeField,
       this.focusedBorderWidth,
+      this.hintText,
       this.readOnly,
       this.enabledBorderWidth,
       this.filled,
@@ -46,7 +47,7 @@ class AuthTextField extends StatelessWidget {
       this.maxlines});
   final TextEditingController controller;
   final String title;
-  final String? subtitle, prefixText;
+  final String? subtitle, prefixText, hintText;
   final TextStyle? titleStyle, hintStyle;
   final Widget? suffixIcon, alternativeField, fieldAction;
   final bool obscureText, hasSubtitle;
@@ -118,6 +119,8 @@ class AuthTextField extends StatelessWidget {
                 decoration: InputDecoration(
                   filled: true,
                   prefixText: prefixText,
+                  hintText: hintText,
+                  hintStyle: bodyMedium.copyWith(color: AppColors.lightText2),
                   fillColor: Colors.grey.withOpacity(0.15),
                   errorBorder: errorBorder ??
                       OutlineInputBorder(

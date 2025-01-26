@@ -1,17 +1,21 @@
+import 'dart:async';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flavor_hub/constants/colors.dart';
 import 'package:flavor_hub/constants/custom_textstyles.dart';
 import 'package:flavor_hub/utilities/extensions.dart';
 import 'package:flavor_hub/widgets/app_button.dart';
 import 'package:flavor_hub/widgets/auth_textfield.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
-import 'dart:typed_data';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'dart:io';
+
+import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
 
 class UploadRecipe extends StatefulWidget {
   const UploadRecipe({super.key});
@@ -21,11 +25,53 @@ class UploadRecipe extends StatefulWidget {
 }
 
 class _UploadRecipeState extends State<UploadRecipe> {
-  final _title = TextEditingController();
-  final _ingredients = TextEditingController();
+  final _titleController = TextEditingController();
+  final _ingredientsController = TextEditingController();
+  bool _isLoading = false;
+  //
+  VideoPlayerController? _videoCntrl;
+  String? _videoPath;
+
+  Future<void> pickVideo() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.video,
+    );
+
+    if (result != null) {
+      setState(() {
+        _videoPath = result.files.single.path;
+        _videoCntrl = VideoPlayerController.file(File(_videoPath!))
+          ..initialize().then((_) {
+            setState(() {});
+          });
+      });
+    }
+  }
+
+  Future<void> uploadVideo() async {
+    if (_videoPath != null) {
+      try {
+        Reference ref = FirebaseStorage.instance
+            .ref()
+            .child('videos/${_videoPath!.split('/').last}');
+        await ref.putFile(File(_videoPath!));
+        String downloadUrl = await ref.getDownloadURL();
+        if (kDebugMode) print('Video uploaded successfully: $downloadUrl');
+      } catch (e) {
+        if (kDebugMode) print('Error uploading video: $e');
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _videoCntrl?.dispose();
+    super.dispose();
+  }
+
+  //
 
   // storage and firestore
-  final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   List<File?> pickedImages = [null, null, null];
@@ -44,6 +90,176 @@ class _UploadRecipeState extends State<UploadRecipe> {
     }
   }
 
+  Future<void> uploadRecipeData() async {
+    if (_titleController.text.isEmpty || _ingredientsController.text.isEmpty) {
+      Get.snackbar(
+        "Please fill all fields",
+        "",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          CupertinoIcons.exclamationmark_circle,
+          color: AppColors.appRed,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      List<String> ingredientsList = _ingredientsController.text
+          .split(',')
+          .map((e) => e.trim())
+          .where((element) => element.isNotEmpty)
+          .toList();
+
+      await _firestore.collection('recipes').add({
+        'title': _titleController.text,
+        'ingredients': ingredientsList,
+        'timestamp': FieldValue.serverTimestamp(),
+      }).timeout(
+        const Duration(seconds: 60),
+        onTimeout: () {
+          throw TimeoutException("The upload operation timed out.");
+        },
+      );
+
+      Get.snackbar(
+        "Recipe uploaded successfully!",
+        "",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          Icons.check_circle,
+          color: AppColors.appPrimary,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
+      );
+
+      _titleController.clear();
+      _ingredientsController.clear();
+    } on TimeoutException catch (e) {
+      Get.snackbar(
+        "Timeout occurred",
+        "${e.message}",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          CupertinoIcons.exclamationmark_circle,
+          color: AppColors.appRed,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
+      );
+    } catch (e) {
+      Get.snackbar(
+        "Error uploading recipe",
+        " $e",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          CupertinoIcons.exclamationmark_circle,
+          color: AppColors.appRed,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+/*
+  Future<void> uploadRecipeData() async {
+    if (_titleController.text.isEmpty || _ingredientsController.text.isEmpty) {
+      Get.snackbar(
+        "Please fill all fields",
+        "",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          CupertinoIcons.exclamationmark_circle,
+          color: AppColors.appRed,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 4),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // Set timeout for Firestore operation
+      await _firestore.collection('recipes').add({
+        'title': _titleController.text,
+        'ingredients': _ingredientsController.text,
+        'timestamp': FieldValue.serverTimestamp(),
+      }).timeout(
+        const Duration(seconds: 60),
+        onTimeout: () {
+          throw TimeoutException("The upload operation timed out.");
+        },
+      );
+
+      Get.snackbar(
+        "Success",
+        "Recipe uploaded successfully!",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          Icons.check_circle,
+          color: AppColors.appPrimary,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
+      );
+
+      _titleController.clear();
+      _ingredientsController.clear();
+    } on TimeoutException catch (e) {
+      Get.snackbar(
+        "Timeout occurred",
+        "${e.message}",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          CupertinoIcons.exclamationmark_circle,
+          color: AppColors.appRed,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
+      );
+    } catch (e) {
+      Get.snackbar(
+        "Error uploading recipe",
+        "",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey.withOpacity(0.2),
+        icon: Icon(
+          CupertinoIcons.exclamationmark_circle,
+          color: AppColors.appRed,
+        ),
+        colorText: AppColors.primaryText,
+        duration: const Duration(seconds: 5),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+*/
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
@@ -136,44 +352,55 @@ class _UploadRecipeState extends State<UploadRecipe> {
                 style: bodyLarge.copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 5.0.h),
-              DottedBorder(
-                color: AppColors.appPrimary,
-                borderType: BorderType.RRect,
-                radius: const Radius.circular(15),
-                dashPattern: const [6, 6, 6, 6],
-                strokeWidth: 0.7,
-                child: Container(
-                  width: double.infinity,
-                  height: 120,
-                  decoration: BoxDecoration(
-                      color: AppColors.imageBox,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Opacity(
-                          opacity: 0.8,
-                          child: Icon(
-                            Icons.play_circle,
-                            color: AppColors.appPrimary,
+              GestureDetector(
+                onTap: () {
+                  pickVideo();
+                },
+                child: DottedBorder(
+                  color: AppColors.appPrimary,
+                  borderType: BorderType.RRect,
+                  radius: const Radius.circular(15),
+                  dashPattern: const [6, 6, 6, 6],
+                  strokeWidth: 0.7,
+                  child: Container(
+                    width: double.infinity,
+                    height: 120,
+                    decoration: BoxDecoration(
+                        color: AppColors.imageBox,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: (_videoCntrl != null &&
+                            _videoCntrl!.value.isInitialized)
+                        ? AspectRatio(
+                            aspectRatio: _videoCntrl?.value.aspectRatio ?? 1,
+                            child: VideoPlayer(_videoCntrl!),
+                          )
+                        : Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Opacity(
+                                  opacity: 0.8,
+                                  child: Icon(
+                                    Icons.play_circle,
+                                    color: AppColors.appPrimary,
+                                  ),
+                                ),
+                                Text(
+                                  'Mp4 file less than 100MB',
+                                  style: bodySmall.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.lightText),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        Text(
-                          'Mp4 file less than 100MB',
-                          style: bodySmall.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.lightText),
-                        )
-                      ],
-                    ),
                   ),
                 ),
               ),
               SizedBox(height: 20.0.h),
               AuthTextField(
-                  controller: _title,
+                  controller: _titleController,
                   title: 'Recipe Title',
                   titleStyle: bodyLarge.copyWith(fontWeight: FontWeight.bold),
                   obscureText: false,
@@ -184,7 +411,7 @@ class _UploadRecipeState extends State<UploadRecipe> {
                   borderRadius: 16,
                   bottomMargin: 20.0.h),
               AuthTextField(
-                  controller: _ingredients,
+                  controller: _ingredientsController,
                   title: 'Ingredients',
                   titleStyle: bodyLarge.copyWith(fontWeight: FontWeight.bold),
                   obscureText: false,
@@ -192,13 +419,18 @@ class _UploadRecipeState extends State<UploadRecipe> {
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   errorBorder: InputBorder.none,
+                  hintText:
+                      "Use commas to separate ingredients (e.g., Flour, Sugar, Milk)",
                   maxlines: 4,
                   borderRadius: 16,
                   bottomMargin: 25.0.h),
               AppButton(
-                onTap: () {},
+                onTap: () {
+                  uploadRecipeData();
+                },
                 text: 'Upload Recipe',
-              )
+                isLoading: _isLoading ? true : false,
+              ),
             ],
           ),
         ),

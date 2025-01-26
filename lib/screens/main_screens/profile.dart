@@ -34,15 +34,11 @@ class Profile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 70.0),
           child: Column(
             children: [
-              Container(
-                width: 50.0.w,
-                height: 50.0.h,
-                decoration: BoxDecoration(
-                    color: AppColors.textfieldBorder,
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                        image: NetworkImage(AppImages.profileHeader)),
-                    border: Border.all(color: AppColors.lightText2)),
+              CircleAvatar(
+                radius: 25.0.h,
+                foregroundImage: NetworkImage(AppImages.profileHeader),
+                backgroundImage: AssetImage(AppImages.avatar),
+                backgroundColor: AppColors.textfieldBorder,
               ),
               SizedBox(height: 10),
               RichText(
@@ -70,18 +66,18 @@ class Profile extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: 35),
               InkWell(
                 onTap: () {
                   Get.toNamed(AppRoutes.uploadRecipe);
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 65.0.h,
+                  height: 55.0.h,
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
                       color: AppColors.white,
-                      border: Border.all(color: AppColors.lightText2)),
+                      border: Border.all(color: AppColors.textfieldBorder)),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.0.w),
                     child: Center(
@@ -89,6 +85,36 @@ class Profile extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Upload Your Recipe', style: bodyLarge),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            color: AppColors.lightText2,
+                            size: 15,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 25),
+              InkWell(
+                onTap: () {
+                  Get.toNamed(AppRoutes.byYou);
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 55.0.h,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                      color: AppColors.white,
+                      border: Border.all(color: AppColors.textfieldBorder)),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Recipes by you', style: bodyLarge),
                           const Icon(
                             Icons.arrow_forward_ios,
                             color: AppColors.lightText2,
@@ -111,11 +137,11 @@ class Profile extends StatelessWidget {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 65.0.h,
+                  height: 55.0.h,
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
                       color: AppColors.white,
-                      border: Border.all(color: AppColors.lightText2)),
+                      border: Border.all(color: AppColors.textfieldBorder)),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.0.w),
                     child: Center(
