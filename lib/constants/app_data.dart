@@ -71,9 +71,9 @@ List<Map> recipesTile = [
   },
   {
     'nationality': 'Italian',
-    'name': 'Marcaronni',
+    'name': 'Cheesy Taco Pasta',
     'image':
-        'https://i.pinimg.com/736x/29/65/65/296565a2e3bbd57d05428ddff8a7056c.jpg',
+        'https://i.pinimg.com/736x/20/c1/53/20c153196c02a95c052e620480e09b3c.jpg',
     'duration': 50,
     'favourite': false
   },
@@ -99,6 +99,14 @@ List<Map> recipesTile = [
     'image':
         'https://i0.wp.com/northeastnosh.com/wp-content/uploads/2024/05/Cheesy-Beef-Fiesta-Wraps.jpg?w=960&ssl=1',
     'duration': 50,
+    'favourite': false
+  },
+  {
+    'nationality': 'Brazilian',
+    'name': 'Moqueca (Brazilian Seafood Stew)',
+    'image':
+        'https://i.pinimg.com/736x/b4/89/cf/b489cf6b6caa47800d3056a2bec1c564.jpg',
+    'duration': 70,
     'favourite': false
   },
 ];

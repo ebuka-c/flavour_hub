@@ -112,14 +112,12 @@ class _UploadRecipeState extends State<UploadRecipe> {
     });
 
     try {
-      // Convert ingredients to a list of strings by splitting on commas
       List<String> ingredientsList = _ingredientsController.text
           .split(',')
           .map((e) => e.trim())
           .where((element) => element.isNotEmpty)
           .toList();
 
-      // Store the recipe with the list of ingredients
       await _firestore.collection('recipes').add({
         'title': _titleController.text,
         'ingredients': ingredientsList,

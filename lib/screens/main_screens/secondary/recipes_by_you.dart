@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import '../../../constants/colors.dart';
 import '../../../constants/custom_textstyles.dart';
 import '../../../constants/images.dart';
-import 'recipe_screen.dart';
+import 'my_recipe_details.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -117,6 +117,8 @@ class _RecipesByYouState extends State<RecipesByYou> {
                             : DropdownButton<String>(
                                 icon: const Icon(Icons.more_vert),
                                 underline: const SizedBox(),
+                                alignment: Alignment.bottomRight,
+                                menuMaxHeight: 55,
                                 items: [
                                   DropdownMenuItem(
                                     value: "delete",
@@ -142,7 +144,7 @@ class _RecipesByYouState extends State<RecipesByYou> {
                               ),
                         onTap: () {
                           Get.to(
-                            RecipeScreen(
+                            MyRecipeDetails(
                                 title: title,
                                 myIngredients: ingredients,
                                 myRecipes: true),

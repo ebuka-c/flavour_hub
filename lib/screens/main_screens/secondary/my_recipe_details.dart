@@ -8,18 +8,18 @@ import 'package:iconsax/iconsax.dart';
 
 import '../../../constants/images.dart';
 
-class RecipeScreen extends StatefulWidget {
-  const RecipeScreen(
+class MyRecipeDetails extends StatefulWidget {
+  const MyRecipeDetails(
       {super.key, this.title, this.myIngredients, this.myRecipes});
 
   final String? title;
   final List<String>? myIngredients;
   final bool? myRecipes;
   @override
-  State<RecipeScreen> createState() => _RecipeScreenState();
+  State<MyRecipeDetails> createState() => _RecipeScreenState();
 }
 
-class _RecipeScreenState extends State<RecipeScreen>
+class _RecipeScreenState extends State<MyRecipeDetails>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -28,9 +28,8 @@ class _RecipeScreenState extends State<RecipeScreen>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
 
-    // Add a listener to detect tab changes
     _tabController.addListener(() {
-      setState(() {}); // Rebuild the widget tree when the active tab changes
+      setState(() {});
     });
   }
 
@@ -73,9 +72,7 @@ class _RecipeScreenState extends State<RecipeScreen>
               height: MediaQuery.of(context).size.height / 1.9,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: widget.myRecipes == true
-                      ? AssetImage(AppImages.egusi)
-                      : NetworkImage(AppImages.pizza),
+                  image: AssetImage(AppImages.egusi),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -148,10 +145,7 @@ class _RecipeScreenState extends State<RecipeScreen>
                     SizedBox(height: 10),
                     // Recipe Description
                     Text(
-                      widget.myRecipes == null
-                          ? 'A step-by-step guide to make delicious pasta at home. '
-                              'This recipe is easy, flavorful, and perfect for any occasion.'
-                          : 'A step-by-step guide to make delicious ${widget.title} at home.',
+                      'A step-by-step guide to make delicious ${widget.title} at home.',
                       style: bodyMedium.copyWith(
                         fontSize: 16,
                         color: AppColors.lightText,
@@ -230,7 +224,7 @@ class _RecipeScreenState extends State<RecipeScreen>
                                               SizedBox(width: 8),
                                               Text(
                                                   // ''' - ${widget.myRecipes != null ? (widget.myIngredients?[index] ?? '') : ingredients[index]}'''
-                                                  ' - ${widget.myRecipes == null ? ingredients[index] : (widget.myIngredients?[index] ?? '')}')
+                                                  ' - ${widget.myIngredients?[index] ?? ''}')
                                             ],
                                           );
                                         },

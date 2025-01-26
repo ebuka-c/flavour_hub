@@ -2,12 +2,11 @@ import 'package:flavor_hub/utilities/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-
 import '../../constants/colors.dart';
 import '../../constants/custom_textstyles.dart';
 import '../../constants/images.dart';
 import '../../page_routes/route_name.dart';
-import 'secondary/search_screen.dart';
+import '../../widgets/nationality.dart';
 
 class Favourites extends StatelessWidget {
   const Favourites({super.key});
