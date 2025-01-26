@@ -1,7 +1,7 @@
 import 'package:flavor_hub/constants/app_data.dart';
 import 'package:flavor_hub/constants/colors.dart';
 import 'package:flavor_hub/constants/custom_textstyles.dart';
-import 'package:flavor_hub/page_routes/route_name.dart';
+import 'package:flavor_hub/screens/main_screens/secondary/recipe_details.dart';
 import 'package:flavor_hub/utilities/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,12 +29,38 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
+  void toggleFavorite(Map recipe) {
+    setState(() {
+      recipe['favourite'] = !recipe['favourite'];
+      if (recipe['favourite']) {
+        myFavorites.add(recipe);
+        Get.snackbar(
+          "Favourite",
+          "Recipe added to favourites",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.grey.withOpacity(0.2),
+          icon: Icon(
+            Icons.check_circle,
+            color: AppColors.appPrimary,
+          ),
+          colorText: AppColors.primaryText,
+          duration: const Duration(seconds: 2),
+        );
+      } else {
+        myFavorites.removeWhere((item) => item['name'] == recipe['name']);
+      }
+    });
+  }
+
   void filterRecipes() {
     String query = searchCntrl.text.toLowerCase();
     setState(() {
+      // Filter recipes based on the search query
       filteredRecipes = recipesTile.where((recipe) {
         return recipe['name'].toLowerCase().contains(query) ||
-            recipe['nationality'].toLowerCase().contains(query);
+            recipe['nationality'].toLowerCase().contains(query) ||
+            (recipe['ingredients'] as List<String>)
+                .any((ingredient) => ingredient.toLowerCase().contains(query));
       }).toList();
     });
   }
@@ -67,7 +93,7 @@ class _SearchScreenState extends State<SearchScreen> {
               controller: searchCntrl,
               inputBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
-              hintText: 'Search by name or nationality',
+              hintText: 'Search by name, ingredients or nationality',
               hintStyle: bodyMedium.copyWith(
                   color: AppColors.lightText2, fontFamily: ''),
               autoFocus: true,
@@ -87,11 +113,23 @@ class _SearchScreenState extends State<SearchScreen> {
             : ListView.separated(
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
+                  final recipe = filteredRecipes[index];
+
                   return GestureDetector(
                     onTap: () {
-                      var filteredData = filteredRecipes[index];
-                      Get.toNamed(AppRoutes.recipeScreen,
-                          arguments: filteredData);
+                      var filteredName = filteredRecipes[index]['name'];
+                      var filteredImage = filteredRecipes[index]['image'];
+                      var filteredDuration = filteredRecipes[index]['duration'];
+                      var isFavourite = recipe['favourite'];
+                      List<String> filteredIngred =
+                          filteredRecipes[index]['ingredients'];
+                      Get.to(RecipeDetails(
+                          filteredName: filteredName,
+                          filteredDuration: filteredDuration,
+                          filteredImage: filteredImage,
+                          filteredIngred: filteredIngred,
+                          recipeId: index,
+                          isFavourite: isFavourite));
                     },
                     child: Container(
                       width: double.infinity,
@@ -140,7 +178,19 @@ class _SearchScreenState extends State<SearchScreen> {
                                           Icon(Icons.share_rounded, size: 15),
                                     ),
                                     SizedBox(width: 8.0.w),
-                                    Icon(Icons.favorite_outline, size: 16),
+                                    InkWell(
+                                      onTap: () {
+                                        toggleFavorite(recipe);
+                                      },
+                                      child: Icon(
+                                          recipe['favourite']
+                                              ? Icons.favorite
+                                              : Icons.favorite_outline,
+                                          color: recipe['favourite']
+                                              ? AppColors.appRed
+                                              : null,
+                                          size: 16),
+                                    ),
                                   ],
                                 ),
                                 SizedBox(height: 10.0.h),

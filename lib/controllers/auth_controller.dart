@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -38,8 +40,14 @@ class AuthController extends GetxController {
   Future<bool> signUpwEmailPwd(String email, String pwd) async {
     isLoading.value = true;
     try {
-      final userCredential = await _auth.createUserWithEmailAndPassword(
-          email: email, password: pwd);
+      final userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: pwd)
+          .timeout(
+        const Duration(seconds: 60),
+        onTimeout: () {
+          throw TimeoutException("The upload operation timed out.");
+        },
+      );
 
       // Update the user's display name
       await userCredential.user!.updateDisplayName(nameController.text.trim());
@@ -73,7 +81,14 @@ class AuthController extends GetxController {
   Future<bool> loginwEmailPwd(String email, String pwd) async {
     isLoading.value = true;
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: pwd);
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: pwd)
+          .timeout(
+        const Duration(seconds: 60),
+        onTimeout: () {
+          throw TimeoutException("The upload operation timed out.");
+        },
+      );
       // print(userCredential.user?.uid);
       return true;
     } on FirebaseAuthException catch (e) {

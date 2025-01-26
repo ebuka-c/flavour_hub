@@ -15,4 +15,6 @@ class AppRoutes {
   static const String uploadRecipe = "/uploadRecipe";
   static const String byYou = "/byYou";
   static const String myRecipeDetails = "/myRecipeDetails";
+
+  static const String favRecipeDetails = "/favRecipeDetails";
 }
