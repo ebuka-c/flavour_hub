@@ -89,30 +89,28 @@ class _FavouritesState extends State<Favourites> {
                                           Icon(Icons.share_rounded, size: 15)),
                                   SizedBox(width: 8.0.w),
                                   GestureDetector(
-                                      onTap: () {
-                                        setState(() async {
-                                          recipe['favourite'] =
-                                              !recipe['favourite'];
-                                          if (!recipe['favourite']) {
-                                            await myFavorites.removeAt(index);
-
-                                            Get.snackbar(
-                                              "Removed",
-                                              "Recipe removed from favourites",
-                                              snackPosition: SnackPosition.TOP,
-                                              backgroundColor:
-                                                  Colors.grey.withOpacity(0.2),
-                                              icon: Icon(
-                                                CupertinoIcons
-                                                    .exclamationmark_circle,
-                                                color: AppColors.appRed,
-                                              ),
-                                              colorText: AppColors.primaryText,
-                                              duration:
-                                                  const Duration(seconds: 1),
-                                            );
-                                          }
-                                        });
+                                      onTap: () async {
+                                        setState(() {});
+                                        recipe['favourite'] =
+                                            !recipe['favourite'];
+                                        if (!recipe['favourite']) {
+                                          await myFavorites.removeAt(index);
+                                          Get.snackbar(
+                                            "Removed",
+                                            "Recipe removed from favourites",
+                                            snackPosition: SnackPosition.TOP,
+                                            backgroundColor:
+                                                Colors.grey.withOpacity(0.2),
+                                            icon: Icon(
+                                              CupertinoIcons
+                                                  .exclamationmark_circle,
+                                              color: AppColors.appRed,
+                                            ),
+                                            colorText: AppColors.primaryText,
+                                            duration:
+                                                const Duration(seconds: 1),
+                                          );
+                                        }
                                       },
                                       child: Icon(
                                           recipe['favourite']

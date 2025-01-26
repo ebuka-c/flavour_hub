@@ -167,10 +167,23 @@ List<Map> recipesTile = [
 ];
 
 // Save favorites
-Future<void> saveFavorites(List<Map<String, dynamic>> favorites) async {
+Future<void> saveFavorites(List<Map> favorites) async {
   // Convert the list of favorites to a JSON string
   String favoritesJson = jsonEncode(favorites);
 
   // Save the JSON string in GetStorage
   await getStorageInstance.write(FAVOURITES, favoritesJson);
+}
+
+Future<List<Map>> loadFavorites() async {
+  // Retrieve the favorites JSON string from GetStorage
+  String? favoritesJson = getStorageInstance.read(FAVOURITES);
+
+  // If the favorites data exists, decode it
+  if (favoritesJson != null) {
+    List<dynamic> decodedData = jsonDecode(favoritesJson);
+    return List<Map>.from(decodedData);
+  } else {
+    return [];
+  }
 }
